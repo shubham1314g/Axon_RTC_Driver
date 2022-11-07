@@ -1,0 +1,1050 @@
+
+
+Microchip Technology PIC18 LITE Macro Assembler V1.34 build -361300703 
+                                                                                               Sat Nov 05 22:58:31 2022
+
+Microchip Technology Omniscient Code Generator (Lite mode) build 201502162209
+     1                           	processor	18F87J11
+     2                           	fnconf	rparam,??,?,0
+     3                           	opt	pw 120
+     4                           	opt	lm
+     5                           	psect	nvCOMRAM,global,class=COMRAM,space=1,delta=1
+     6                           	psect	cinit,global,reloc=2,class=CODE,delta=1
+     7                           	psect	bssCOMRAM,global,class=COMRAM,space=1,delta=1
+     8                           	psect	cstackCOMRAM,global,class=COMRAM,space=1,delta=1
+     9                           	psect	text0,global,reloc=2,class=CODE,delta=1
+    10                           	psect	text1,global,reloc=2,class=CODE,delta=1
+    11                           	psect	text2,global,reloc=2,class=CODE,delta=1
+    12                           	psect	text3,global,reloc=2,class=CODE,delta=1
+    13                           	psect	text4,global,reloc=2,class=CODE,delta=1
+    14                           	psect	text5,global,reloc=2,class=CODE,delta=1
+    15                           	psect	text6,global,reloc=2,class=CODE,delta=1
+    16                           	psect	text7,global,reloc=2,class=CODE,delta=1
+    17                           	psect	text8,global,reloc=2,class=CODE,delta=1
+    18                           	psect	intsave_regs,global,class=BIGRAM,space=1,delta=1
+    19                           	psect	rparam,global,class=COMRAM,space=1,delta=1
+    20  0000                     
+    21                           	psect	nvCOMRAM
+    22  00000B                     __pnvCOMRAM:
+    23                           	opt stack 0
+    24  00000B                     _day:
+    25                           	opt stack 0
+    26  00000B                     	ds	1
+    27  0000                     _PIR1bits	set	3998
+    28  0000                     _PORTAbits	set	3968
+    29  0000                     _PORTCbits	set	3970
+    30  0000                     _SSP1BUF	set	4041
+    31  0000                     _SSP1CON1	set	4038
+    32  0000                     _SSP1CON1bits	set	4038
+    33  0000                     _SSP1STAT	set	4039
+    34  0000                     _TRISA	set	3986
+    35  0000                     _TRISC	set	3988
+    36                           
+    37                           ; #config settings
+    38                           
+    39                           	psect	cinit
+    40  01FEB0                     __pcinit:
+    41                           	opt stack 0
+    42  01FEB0                     start_initialization:
+    43                           	opt stack 0
+    44  01FEB0                     __initialization:
+    45                           	opt stack 0
+    46                           
+    47                           ; Clear objects allocated to COMRAM (7 bytes)
+    48  01FEB0  EE00  F001         	lfsr	0,__pbssCOMRAM
+    49  01FEB4  0E07               	movlw	7
+    50  01FEB6                     clear_0:
+    51  01FEB6  6AEE               	clrf	postinc0,c
+    52  01FEB8  06E8               	decf	wreg,f,c
+    53  01FEBA  E1FD               	bnz	clear_0
+    54  01FEBC                     end_of_initialization:
+    55                           	opt stack 0
+    56  01FEBC                     __end_of__initialization:
+    57                           	opt stack 0
+    58  01FEBC  0100               	movlb	0
+    59  01FEBE  EFC0  F0FF         	goto	_main	;jump to C main() function
+    60                           postinc0	equ	0xFEE
+    61                           wreg	equ	0xFE8
+    62                           
+    63                           	psect	bssCOMRAM
+    64  000001                     __pbssCOMRAM:
+    65                           	opt stack 0
+    66  000001                     _dat:
+    67                           	opt stack 0
+    68  000001                     	ds	1
+    69  000002                     _hr:
+    70                           	opt stack 0
+    71  000002                     	ds	1
+    72  000003                     _min:
+    73                           	opt stack 0
+    74  000003                     	ds	1
+    75  000004                     _mon:
+    76                           	opt stack 0
+    77  000004                     	ds	1
+    78  000005                     _rtcc_buf:
+    79                           	opt stack 0
+    80  000005                     	ds	1
+    81  000006                     _sec:
+    82                           	opt stack 0
+    83  000006                     	ds	1
+    84  000007                     _yr:
+    85                           	opt stack 0
+    86  000007                     	ds	1
+    87                           postinc0	equ	0xFEE
+    88                           wreg	equ	0xFE8
+    89                           
+    90                           	psect	cstackCOMRAM
+    91  000008                     __pcstackCOMRAM:
+    92                           	opt stack 0
+    93  000008                     spi_wrbyte@spi_data:
+    94                           	opt stack 0
+    95  000008                     spi_rdbyte@aux:
+    96                           	opt stack 0
+    97                           
+    98                           ; 1 bytes @ 0x0
+    99  000008                     	ds	1
+   100  000009                     spi_rtcc_wr@time_var:
+   101                           	opt stack 0
+   102  000009                     spi_rtcc_rd@rtcc_reg:
+   103                           	opt stack 0
+   104                           
+   105                           ; 1 bytes @ 0x1
+   106  000009                     	ds	1
+   107  00000A                     spi_rtcc_wr@rtcc_reg:
+   108                           	opt stack 0
+   109                           
+   110                           ; 1 bytes @ 0x2
+   111  00000A                     	ds	1
+   112  00000B                     postinc0	equ	0xFEE
+   113                           wreg	equ	0xFE8
+   114                           
+   115                           ; 0 bytes @ 0x3
+   116 ;;
+   117 ;;Main: autosize = 0, tempsize = 0, incstack = 0, save=0
+   118 ;;
+   119 ;; *************** function _main *****************
+   120 ;; Defined at:
+   121 ;;		line 36 in file "SPI_Driver_Platform.c"
+   122 ;; Parameters:    Size  Location     Type
+   123 ;;		None
+   124 ;; Auto vars:     Size  Location     Type
+   125 ;;		None
+   126 ;; Return value:  Size  Location     Type
+   127 ;;		None               void
+   128 ;; Registers used:
+   129 ;;		wreg, status,2, status,0, cstack
+   130 ;; Tracked objects:
+   131 ;;		On entry : 0/0
+   132 ;;		On exit  : 0/0
+   133 ;;		Unchanged: 0/0
+   134 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13  BANK14  BANK15
+   135 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   136 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   137 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   138 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   139 ;;Total ram usage:        0 bytes
+   140 ;; Hardware stack levels required when called:    3
+   141 ;; This function calls:
+   142 ;;		_ini_spi_rtcc
+   143 ;;		_ini_spi_time
+   144 ;;		_spi_rtcc_rd
+   145 ;;		_spi_rtcc_wr
+   146 ;; This function is called by:
+   147 ;;		Startup code after reset
+   148 ;; This function uses a non-reentrant model
+   149 ;;
+   150                           
+   151                           	psect	text0
+   152  01FF80                     __ptext0:
+   153                           	opt stack 0
+   154  01FF80                     _main:
+   155                           	opt stack 28
+   156                           
+   157                           ;SPI_Driver_Platform.c: 38: ini_spi_rtcc();
+   158                           
+   159                           ;incstack = 0
+   160  01FF80  EC7B  F0FF         	call	_ini_spi_rtcc	;wreg free
+   161                           
+   162                           ;SPI_Driver_Platform.c: 39: ini_spi_time();
+   163  01FF84  EC9C  F0FF         	call	_ini_spi_time	;wreg free
+   164                           
+   165                           ;SPI_Driver_Platform.c: 42: yr = spi_rtcc_rd(0x07);
+   166  01FF88  0E07               	movlw	7
+   167  01FF8A  EC8B  F0FF         	call	_spi_rtcc_rd
+   168  01FF8E  6E07               	movwf	_yr,c
+   169                           
+   170                           ;SPI_Driver_Platform.c: 43: mon = spi_rtcc_rd(0x06);
+   171  01FF90  0E06               	movlw	6
+   172  01FF92  EC8B  F0FF         	call	_spi_rtcc_rd
+   173  01FF96  6E04               	movwf	_mon,c
+   174                           
+   175                           ;SPI_Driver_Platform.c: 45: dat = spi_rtcc_rd(0x05);
+   176  01FF98  0E05               	movlw	5
+   177  01FF9A  EC8B  F0FF         	call	_spi_rtcc_rd
+   178  01FF9E  6E01               	movwf	_dat,c
+   179                           
+   180                           ;SPI_Driver_Platform.c: 46: hr = spi_rtcc_rd(0x03);
+   181  01FFA0  0E03               	movlw	3
+   182  01FFA2  EC8B  F0FF         	call	_spi_rtcc_rd
+   183  01FFA6  6E02               	movwf	_hr,c
+   184                           
+   185                           ;SPI_Driver_Platform.c: 47: min = spi_rtcc_rd(0x02);
+   186  01FFA8  0E02               	movlw	2
+   187  01FFAA  EC8B  F0FF         	call	_spi_rtcc_rd
+   188  01FFAE  6E03               	movwf	_min,c
+   189                           
+   190                           ;SPI_Driver_Platform.c: 48: sec = spi_rtcc_rd(0x01);
+   191  01FFB0  0E01               	movlw	1
+   192  01FFB2  EC8B  F0FF         	call	_spi_rtcc_rd
+   193  01FFB6  6E06               	movwf	_sec,c
+   194                           
+   195                           ;SPI_Driver_Platform.c: 53: spi_rtcc_wr(0x07,yr);
+   196  01FFB8  C007  F009         	movff	_yr,spi_rtcc_wr@time_var
+   197  01FFBC  0E07               	movlw	7
+   198  01FFBE  EC6C  F0FF         	call	_spi_rtcc_wr
+   199                           
+   200                           ;SPI_Driver_Platform.c: 54: spi_rtcc_wr(0x06,mon) ;
+   201  01FFC2  C004  F009         	movff	_mon,spi_rtcc_wr@time_var
+   202  01FFC6  0E06               	movlw	6
+   203  01FFC8  EC6C  F0FF         	call	_spi_rtcc_wr
+   204                           
+   205                           ;SPI_Driver_Platform.c: 56: spi_rtcc_wr(0x05,dat) ;
+   206  01FFCC  C001  F009         	movff	_dat,spi_rtcc_wr@time_var
+   207  01FFD0  0E05               	movlw	5
+   208  01FFD2  EC6C  F0FF         	call	_spi_rtcc_wr
+   209                           
+   210                           ;SPI_Driver_Platform.c: 57: spi_rtcc_wr(0x03,hr) ;
+   211  01FFD6  C002  F009         	movff	_hr,spi_rtcc_wr@time_var
+   212  01FFDA  0E03               	movlw	3
+   213  01FFDC  EC6C  F0FF         	call	_spi_rtcc_wr
+   214                           
+   215                           ;SPI_Driver_Platform.c: 58: spi_rtcc_wr(0x02,min) ;
+   216  01FFE0  C003  F009         	movff	_min,spi_rtcc_wr@time_var
+   217  01FFE4  0E02               	movlw	2
+   218  01FFE6  EC6C  F0FF         	call	_spi_rtcc_wr
+   219                           
+   220                           ;SPI_Driver_Platform.c: 60: spi_rtcc_wr(0x01,sec) ;
+   221  01FFEA  C006  F009         	movff	_sec,spi_rtcc_wr@time_var
+   222  01FFEE  0E01               	movlw	1
+   223  01FFF0  EC6C  F0FF         	call	_spi_rtcc_wr
+   224  01FFF4  EF00  F000         	goto	start
+   225  01FFF8                     __end_of_main:
+   226                           	opt stack 0
+   227                           postinc0	equ	0xFEE
+   228                           wreg	equ	0xFE8
+   229                           
+   230 ;; *************** function _ini_spi_time *****************
+   231 ;; Defined at:
+   232 ;;		line 137 in file "spi_rtcc_drivers.h"
+   233 ;; Parameters:    Size  Location     Type
+   234 ;;		None
+   235 ;; Auto vars:     Size  Location     Type
+   236 ;;		None
+   237 ;; Return value:  Size  Location     Type
+   238 ;;		None               void
+   239 ;; Registers used:
+   240 ;;		wreg, status,2, cstack
+   241 ;; Tracked objects:
+   242 ;;		On entry : 0/0
+   243 ;;		On exit  : 0/0
+   244 ;;		Unchanged: 0/0
+   245 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13  BANK14  BANK15
+   246 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   247 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   248 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   249 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   250 ;;Total ram usage:        0 bytes
+   251 ;; Hardware stack levels used:    1
+   252 ;; Hardware stack levels required when called:    2
+   253 ;; This function calls:
+   254 ;;		_spi_rtcc_wr
+   255 ;; This function is called by:
+   256 ;;		_main
+   257 ;;		_platform_RTC_init
+   258 ;; This function uses a non-reentrant model
+   259 ;;
+   260                           
+   261                           	psect	text1
+   262  01FF38                     __ptext1:
+   263                           	opt stack 0
+   264  01FF38                     _ini_spi_time:
+   265                           	opt stack 28
+   266                           
+   267                           ;spi_rtcc_drivers.h: 139: if((day&0x20)==0x20) {;}
+   268                           
+   269                           ;incstack = 0
+   270  01FF38  BA0B               	btfsc	_day,5,c
+   271  01FF3A  0012               	return	
+   272  01FF3C  D001               	goto	l789
+   273  01FF3E  0012               	return	
+   274  01FF40                     l789:
+   275                           
+   276                           ;spi_rtcc_drivers.h: 140: else {
+   277                           ;spi_rtcc_drivers.h: 142: spi_rtcc_wr(0x07,0x17) ;
+   278  01FF40  0E17               	movlw	23
+   279  01FF42  6E09               	movwf	spi_rtcc_wr@time_var,c
+   280  01FF44  0E07               	movlw	7
+   281  01FF46  EC6C  F0FF         	call	_spi_rtcc_wr
+   282                           
+   283                           ;spi_rtcc_drivers.h: 143: spi_rtcc_wr(0x06,0x02) ;
+   284  01FF4A  0E02               	movlw	2
+   285  01FF4C  6E09               	movwf	spi_rtcc_wr@time_var,c
+   286  01FF4E  0E06               	movlw	6
+   287  01FF50  EC6C  F0FF         	call	_spi_rtcc_wr
+   288                           
+   289                           ;spi_rtcc_drivers.h: 144: spi_rtcc_wr(0x05,0x01) ;
+   290  01FF54  0E01               	movlw	1
+   291  01FF56  6E09               	movwf	spi_rtcc_wr@time_var,c
+   292  01FF58  0E05               	movlw	5
+   293  01FF5A  EC6C  F0FF         	call	_spi_rtcc_wr
+   294                           
+   295                           ;spi_rtcc_drivers.h: 145: spi_rtcc_wr(0x03,0x05) ;
+   296  01FF5E  0E05               	movlw	5
+   297  01FF60  6E09               	movwf	spi_rtcc_wr@time_var,c
+   298  01FF62  0E03               	movlw	3
+   299  01FF64  EC6C  F0FF         	call	_spi_rtcc_wr
+   300                           
+   301                           ;spi_rtcc_drivers.h: 146: spi_rtcc_wr(0x02,0x00) ;
+   302  01FF68  0E00               	movlw	0
+   303  01FF6A  6E09               	movwf	spi_rtcc_wr@time_var,c
+   304  01FF6C  0E02               	movlw	2
+   305  01FF6E  EC6C  F0FF         	call	_spi_rtcc_wr
+   306                           
+   307                           ;spi_rtcc_drivers.h: 147: spi_rtcc_wr(0x01,0x80) ; }
+   308  01FF72  0E80               	movlw	128
+   309  01FF74  6E09               	movwf	spi_rtcc_wr@time_var,c
+   310  01FF76  0E01               	movlw	1
+   311  01FF78  EC6C  F0FF         	call	_spi_rtcc_wr
+   312  01FF7C  0012               	return	
+   313  01FF7E  0012               	return		;funcret
+   314  01FF80                     __end_of_ini_spi_time:
+   315                           	opt stack 0
+   316                           postinc0	equ	0xFEE
+   317                           wreg	equ	0xFE8
+   318                           
+   319 ;; *************** function _ini_spi_rtcc *****************
+   320 ;; Defined at:
+   321 ;;		line 126 in file "spi_rtcc_drivers.h"
+   322 ;; Parameters:    Size  Location     Type
+   323 ;;		None
+   324 ;; Auto vars:     Size  Location     Type
+   325 ;;		None
+   326 ;; Return value:  Size  Location     Type
+   327 ;;		None               void
+   328 ;; Registers used:
+   329 ;;		wreg, status,2, status,0, cstack
+   330 ;; Tracked objects:
+   331 ;;		On entry : 0/0
+   332 ;;		On exit  : 0/0
+   333 ;;		Unchanged: 0/0
+   334 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13  BANK14  BANK15
+   335 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   336 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   337 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   338 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   339 ;;Total ram usage:        0 bytes
+   340 ;; Hardware stack levels used:    1
+   341 ;; Hardware stack levels required when called:    2
+   342 ;; This function calls:
+   343 ;;		_spi_rtcc_rd
+   344 ;;		_spi_rtcc_wr
+   345 ;; This function is called by:
+   346 ;;		_main
+   347 ;;		_platform_RTC_init
+   348 ;; This function uses a non-reentrant model
+   349 ;;
+   350                           
+   351                           	psect	text2
+   352  01FEF6                     __ptext2:
+   353                           	opt stack 0
+   354  01FEF6                     _ini_spi_rtcc:
+   355                           	opt stack 28
+   356                           
+   357                           ;spi_rtcc_drivers.h: 127: day = spi_rtcc_rd(0x04) ;
+   358                           
+   359                           ;incstack = 0
+   360  01FEF6  0E04               	movlw	4
+   361  01FEF8  EC8B  F0FF         	call	_spi_rtcc_rd
+   362  01FEFC  6E0B               	movwf	_day,c
+   363                           
+   364                           ;spi_rtcc_drivers.h: 128: spi_rtcc_wr(0x04,day|0x08) ;
+   365  01FEFE  500B               	movf	_day,w,c
+   366  01FF00  0908               	iorlw	8
+   367  01FF02  6E09               	movwf	spi_rtcc_wr@time_var,c
+   368  01FF04  0E04               	movlw	4
+   369  01FF06  EC6C  F0FF         	call	_spi_rtcc_wr
+   370                           
+   371                           ;spi_rtcc_drivers.h: 129: spi_rtcc_wr(0x08,0x00+0x40+0x00);
+   372  01FF0A  0E40               	movlw	64
+   373  01FF0C  6E09               	movwf	spi_rtcc_wr@time_var,c
+   374  01FF0E  0E08               	movlw	8
+   375  01FF10  EC6C  F0FF         	call	_spi_rtcc_wr
+   376  01FF14  0012               	return		;funcret
+   377  01FF16                     __end_of_ini_spi_rtcc:
+   378                           	opt stack 0
+   379                           postinc0	equ	0xFEE
+   380                           wreg	equ	0xFE8
+   381                           
+   382 ;; *************** function _spi_rtcc_wr *****************
+   383 ;; Defined at:
+   384 ;;		line 110 in file "spi_rtcc_drivers.h"
+   385 ;; Parameters:    Size  Location     Type
+   386 ;;  rtcc_reg        1    wreg     unsigned char 
+   387 ;;  time_var        1    1[COMRAM] unsigned char 
+   388 ;; Auto vars:     Size  Location     Type
+   389 ;;  rtcc_reg        1    2[COMRAM] unsigned char 
+   390 ;; Return value:  Size  Location     Type
+   391 ;;		None               void
+   392 ;; Registers used:
+   393 ;;		wreg, status,2, cstack
+   394 ;; Tracked objects:
+   395 ;;		On entry : 0/0
+   396 ;;		On exit  : 0/0
+   397 ;;		Unchanged: 0/0
+   398 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13  BANK14  BANK15
+   399 ;;      Params:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   400 ;;      Locals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   401 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   402 ;;      Totals:         2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   403 ;;Total ram usage:        2 bytes
+   404 ;; Hardware stack levels used:    1
+   405 ;; Hardware stack levels required when called:    1
+   406 ;; This function calls:
+   407 ;;		_spi_rtcc_start
+   408 ;;		_spi_rtcc_stop
+   409 ;;		_spi_wrbyte
+   410 ;; This function is called by:
+   411 ;;		_ini_spi_rtcc
+   412 ;;		_ini_spi_time
+   413 ;;		_main
+   414 ;;		_platform_RTC_write
+   415 ;; This function uses a non-reentrant model
+   416 ;;
+   417                           
+   418                           	psect	text3
+   419  01FED8                     __ptext3:
+   420                           	opt stack 0
+   421  01FED8                     _spi_rtcc_wr:
+   422                           	opt stack 29
+   423                           
+   424                           ;incstack = 0
+   425                           ;spi_rtcc_wr@rtcc_reg stored from wreg
+   426  01FED8  6E0A               	movwf	spi_rtcc_wr@rtcc_reg,c
+   427  01FEDA  EC4A  F0FF         	call	_spi_rtcc_start	;wreg free
+   428                           
+   429                           ;spi_rtcc_drivers.h: 113: spi_wrbyte(0x12) ;
+   430  01FEDE  0E12               	movlw	18
+   431  01FEE0  EC50  F0FF         	call	_spi_wrbyte
+   432                           
+   433                           ;spi_rtcc_drivers.h: 114: spi_wrbyte(rtcc_reg) ;
+   434  01FEE4  500A               	movf	spi_rtcc_wr@rtcc_reg,w,c
+   435  01FEE6  EC50  F0FF         	call	_spi_wrbyte
+   436                           
+   437                           ;spi_rtcc_drivers.h: 115: spi_wrbyte(time_var) ;
+   438  01FEEA  5009               	movf	spi_rtcc_wr@time_var,w,c
+   439  01FEEC  EC50  F0FF         	call	_spi_wrbyte
+   440                           
+   441                           ;spi_rtcc_drivers.h: 116: spi_rtcc_stop() ; }
+   442  01FEF0  EC4D  F0FF         	call	_spi_rtcc_stop	;wreg free
+   443  01FEF4  0012               	return		;funcret
+   444  01FEF6                     __end_of_spi_rtcc_wr:
+   445                           	opt stack 0
+   446                           postinc0	equ	0xFEE
+   447                           wreg	equ	0xFE8
+   448                           
+   449 ;; *************** function _spi_rtcc_rd *****************
+   450 ;; Defined at:
+   451 ;;		line 118 in file "spi_rtcc_drivers.h"
+   452 ;; Parameters:    Size  Location     Type
+   453 ;;  rtcc_reg        1    wreg     unsigned char 
+   454 ;; Auto vars:     Size  Location     Type
+   455 ;;  rtcc_reg        1    1[COMRAM] unsigned char 
+   456 ;; Return value:  Size  Location     Type
+   457 ;;                  1    wreg      unsigned char 
+   458 ;; Registers used:
+   459 ;;		wreg, status,2, cstack
+   460 ;; Tracked objects:
+   461 ;;		On entry : 0/0
+   462 ;;		On exit  : 0/0
+   463 ;;		Unchanged: 0/0
+   464 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13  BANK14  BANK15
+   465 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   466 ;;      Locals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   467 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   468 ;;      Totals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   469 ;;Total ram usage:        1 bytes
+   470 ;; Hardware stack levels used:    1
+   471 ;; Hardware stack levels required when called:    1
+   472 ;; This function calls:
+   473 ;;		_spi_rdbyte
+   474 ;;		_spi_rtcc_start
+   475 ;;		_spi_rtcc_stop
+   476 ;;		_spi_wrbyte
+   477 ;; This function is called by:
+   478 ;;		_ini_spi_rtcc
+   479 ;;		_main
+   480 ;;		_platform_RTC_read
+   481 ;; This function uses a non-reentrant model
+   482 ;;
+   483                           
+   484                           	psect	text4
+   485  01FF16                     __ptext4:
+   486                           	opt stack 0
+   487  01FF16                     _spi_rtcc_rd:
+   488                           	opt stack 29
+   489                           
+   490                           ;incstack = 0
+   491                           ;spi_rtcc_rd@rtcc_reg stored from wreg
+   492  01FF16  6E09               	movwf	spi_rtcc_rd@rtcc_reg,c
+   493  01FF18  EC4A  F0FF         	call	_spi_rtcc_start	;wreg free
+   494                           
+   495                           ;spi_rtcc_drivers.h: 120: spi_wrbyte(0x13) ;
+   496  01FF1C  0E13               	movlw	19
+   497  01FF1E  EC50  F0FF         	call	_spi_wrbyte
+   498                           
+   499                           ;spi_rtcc_drivers.h: 121: spi_wrbyte(rtcc_reg) ;
+   500  01FF22  5009               	movf	spi_rtcc_rd@rtcc_reg,w,c
+   501  01FF24  EC50  F0FF         	call	_spi_wrbyte
+   502                           
+   503                           ;spi_rtcc_drivers.h: 122: rtcc_buf = spi_rdbyte() ;
+   504  01FF28  EC61  F0FF         	call	_spi_rdbyte	;wreg free
+   505  01FF2C  6E05               	movwf	_rtcc_buf,c
+   506                           
+   507                           ;spi_rtcc_drivers.h: 123: spi_rtcc_stop() ;
+   508  01FF2E  EC4D  F0FF         	call	_spi_rtcc_stop	;wreg free
+   509                           
+   510                           ;spi_rtcc_drivers.h: 124: return rtcc_buf ; }
+   511  01FF32  5005               	movf	_rtcc_buf,w,c
+   512  01FF34  0012               	return	
+   513  01FF36  0012               	return		;funcret
+   514  01FF38                     __end_of_spi_rtcc_rd:
+   515                           	opt stack 0
+   516                           postinc0	equ	0xFEE
+   517                           wreg	equ	0xFE8
+   518                           
+   519 ;; *************** function _spi_wrbyte *****************
+   520 ;; Defined at:
+   521 ;;		line 44 in file "spi_drivers.h"
+   522 ;; Parameters:    Size  Location     Type
+   523 ;;  spi_data        1    wreg     unsigned char 
+   524 ;; Auto vars:     Size  Location     Type
+   525 ;;  spi_data        1    0[COMRAM] unsigned char 
+   526 ;; Return value:  Size  Location     Type
+   527 ;;		None               void
+   528 ;; Registers used:
+   529 ;;		wreg
+   530 ;; Tracked objects:
+   531 ;;		On entry : 0/0
+   532 ;;		On exit  : 0/0
+   533 ;;		Unchanged: 0/0
+   534 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13  BANK14  BANK15
+   535 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   536 ;;      Locals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   537 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   538 ;;      Totals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   539 ;;Total ram usage:        1 bytes
+   540 ;; Hardware stack levels used:    1
+   541 ;; This function calls:
+   542 ;;		Nothing
+   543 ;; This function is called by:
+   544 ;;		_spi_rtcc_wr
+   545 ;;		_spi_rtcc_rd
+   546 ;; This function uses a non-reentrant model
+   547 ;;
+   548                           
+   549                           	psect	text5
+   550  01FEA0                     __ptext5:
+   551                           	opt stack 0
+   552  01FEA0                     _spi_wrbyte:
+   553                           	opt stack 29
+   554                           
+   555                           ;incstack = 0
+   556                           ;spi_wrbyte@spi_data stored from wreg
+   557  01FEA0  6E08               	movwf	spi_wrbyte@spi_data,c
+   558  01FEA2  C008  FFC9         	movff	spi_wrbyte@spi_data,4041	;volatile
+   559                           
+   560                           ;spi_drivers.h: 46: while(!PIR1bits.SSP1IF) ;
+   561  01FEA6  D000               	goto	l31
+   562  01FEA8                     l31:
+   563  01FEA8  A69E               	btfss	3998,3,c	;volatile
+   564  01FEAA  D7FE               	goto	l31
+   565                           
+   566                           ;spi_drivers.h: 47: PIR1bits.SSP1IF = 0; }
+   567  01FEAC  969E               	bcf	3998,3,c	;volatile
+   568  01FEAE  0012               	return		;funcret
+   569  01FEB0                     __end_of_spi_wrbyte:
+   570                           	opt stack 0
+   571                           postinc0	equ	0xFEE
+   572                           wreg	equ	0xFE8
+   573                           
+   574 ;; *************** function _spi_rtcc_stop *****************
+   575 ;; Defined at:
+   576 ;;		line 62 in file "spi_drivers.h"
+   577 ;; Parameters:    Size  Location     Type
+   578 ;;		None
+   579 ;; Auto vars:     Size  Location     Type
+   580 ;;		None
+   581 ;; Return value:  Size  Location     Type
+   582 ;;		None               void
+   583 ;; Registers used:
+   584 ;;		None
+   585 ;; Tracked objects:
+   586 ;;		On entry : 0/0
+   587 ;;		On exit  : 0/0
+   588 ;;		Unchanged: 0/0
+   589 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13  BANK14  BANK15
+   590 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   591 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   592 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   593 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   594 ;;Total ram usage:        0 bytes
+   595 ;; Hardware stack levels used:    1
+   596 ;; This function calls:
+   597 ;;		Nothing
+   598 ;; This function is called by:
+   599 ;;		_spi_rtcc_wr
+   600 ;;		_spi_rtcc_rd
+   601 ;; This function uses a non-reentrant model
+   602 ;;
+   603                           
+   604                           	psect	text6
+   605  01FE9A                     __ptext6:
+   606                           	opt stack 0
+   607  01FE9A                     _spi_rtcc_stop:
+   608                           	opt stack 29
+   609                           
+   610                           ;incstack = 0
+   611  01FE9A  9482               	bcf	3970,2,c	;volatile
+   612                           
+   613                           ;spi_drivers.h: 64: PORTCbits.RC2 = 1 ; }
+   614  01FE9C  8482               	bsf	3970,2,c	;volatile
+   615  01FE9E  0012               	return		;funcret
+   616  01FEA0                     __end_of_spi_rtcc_stop:
+   617                           	opt stack 0
+   618                           postinc0	equ	0xFEE
+   619                           wreg	equ	0xFE8
+   620                           
+   621 ;; *************** function _spi_rtcc_start *****************
+   622 ;; Defined at:
+   623 ;;		line 58 in file "spi_drivers.h"
+   624 ;; Parameters:    Size  Location     Type
+   625 ;;		None
+   626 ;; Auto vars:     Size  Location     Type
+   627 ;;		None
+   628 ;; Return value:  Size  Location     Type
+   629 ;;		None               void
+   630 ;; Registers used:
+   631 ;;		None
+   632 ;; Tracked objects:
+   633 ;;		On entry : 0/0
+   634 ;;		On exit  : 0/0
+   635 ;;		Unchanged: 0/0
+   636 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13  BANK14  BANK15
+   637 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   638 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   639 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   640 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   641 ;;Total ram usage:        0 bytes
+   642 ;; Hardware stack levels used:    1
+   643 ;; This function calls:
+   644 ;;		Nothing
+   645 ;; This function is called by:
+   646 ;;		_spi_rtcc_wr
+   647 ;;		_spi_rtcc_rd
+   648 ;; This function uses a non-reentrant model
+   649 ;;
+   650                           
+   651                           	psect	text7
+   652  01FE94                     __ptext7:
+   653                           	opt stack 0
+   654  01FE94                     _spi_rtcc_start:
+   655                           	opt stack 29
+   656                           
+   657                           ;incstack = 0
+   658  01FE94  8482               	bsf	3970,2,c	;volatile
+   659                           
+   660                           ;spi_drivers.h: 60: PORTCbits.RC2 = 0 ; }
+   661  01FE96  9482               	bcf	3970,2,c	;volatile
+   662  01FE98  0012               	return		;funcret
+   663  01FE9A                     __end_of_spi_rtcc_start:
+   664                           	opt stack 0
+   665                           postinc0	equ	0xFEE
+   666                           wreg	equ	0xFE8
+   667                           
+   668 ;; *************** function _spi_rdbyte *****************
+   669 ;; Defined at:
+   670 ;;		line 49 in file "spi_drivers.h"
+   671 ;; Parameters:    Size  Location     Type
+   672 ;;		None
+   673 ;; Auto vars:     Size  Location     Type
+   674 ;;  aux             1    0[COMRAM] unsigned char 
+   675 ;; Return value:  Size  Location     Type
+   676 ;;                  1    wreg      unsigned char 
+   677 ;; Registers used:
+   678 ;;		wreg, status,2
+   679 ;; Tracked objects:
+   680 ;;		On entry : 0/0
+   681 ;;		On exit  : 0/0
+   682 ;;		Unchanged: 0/0
+   683 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13  BANK14  BANK15
+   684 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   685 ;;      Locals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   686 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   687 ;;      Totals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0       0       0
+   688 ;;Total ram usage:        1 bytes
+   689 ;; Hardware stack levels used:    1
+   690 ;; This function calls:
+   691 ;;		Nothing
+   692 ;; This function is called by:
+   693 ;;		_spi_rtcc_rd
+   694 ;; This function uses a non-reentrant model
+   695 ;;
+   696                           
+   697                           	psect	text8
+   698  01FEC2                     __ptext8:
+   699                           	opt stack 0
+   700  01FEC2                     _spi_rdbyte:
+   701                           	opt stack 29
+   702                           
+   703                           ;spi_drivers.h: 51: unsigned char aux;
+   704                           ;spi_drivers.h: 52: SSP1BUF = 0x55 ;
+   705                           
+   706                           ;incstack = 0
+   707  01FEC2  0E55               	movlw	85
+   708  01FEC4  6EC9               	movwf	4041,c	;volatile
+   709                           
+   710                           ;spi_drivers.h: 53: while(!PIR1bits.SSP1IF) ;
+   711  01FEC6  D000               	goto	l37
+   712  01FEC8                     l37:
+   713  01FEC8  A69E               	btfss	3998,3,c	;volatile
+   714  01FECA  D7FE               	goto	l37
+   715                           
+   716                           ;spi_drivers.h: 54: aux=SSP1BUF;
+   717  01FECC  CFC9 F008          	movff	4041,spi_rdbyte@aux	;volatile
+   718                           
+   719                           ;spi_drivers.h: 55: PIR1bits.SSP1IF = 0 ;
+   720  01FED0  969E               	bcf	3998,3,c	;volatile
+   721                           
+   722                           ;spi_drivers.h: 56: return aux ;
+   723  01FED2  5008               	movf	spi_rdbyte@aux,w,c
+   724  01FED4  0012               	return	
+   725  01FED6  0012               	return		;funcret
+   726  01FED8                     __end_of_spi_rdbyte:
+   727                           	opt stack 0
+   728  0000                     postinc0	equ	0xFEE
+   729                           wreg	equ	0xFE8
+   730                           postinc0	equ	0xFEE
+   731                           wreg	equ	0xFE8
+   732                           
+   733                           	psect	rparam
+   734  0000                     postinc0	equ	0xFEE
+   735                           wreg	equ	0xFE8
+
+
+Data Sizes:
+    Strings     0
+    Constant    0
+    Data        0
+    BSS         7
+    Persistent  1
+    Stack       0
+
+Auto Spaces:
+    Space          Size  Autos    Used
+    COMRAM           95      3      11
+    BANK0           160      0       0
+    BANK1           256      0       0
+    BANK2           256      0       0
+    BANK3           256      0       0
+    BANK4           256      0       0
+    BANK5           256      0       0
+    BANK6           256      0       0
+    BANK7           256      0       0
+    BANK8           256      0       0
+    BANK9           256      0       0
+    BANK10          256      0       0
+    BANK11          256      0       0
+    BANK12          256      0       0
+    BANK13          256      0       0
+    BANK14          256      0       0
+    BANK15           64      0       0
+
+Pointer List with Targets:
+
+    None.
+
+Critical Paths under _main in COMRAM
+
+    _main->_spi_rtcc_wr
+    _ini_spi_time->_spi_rtcc_wr
+    _ini_spi_rtcc->_spi_rtcc_wr
+    _spi_rtcc_wr->_spi_wrbyte
+    _spi_rtcc_rd->_spi_rdbyte
+    _spi_rtcc_rd->_spi_wrbyte
+
+Critical Paths under _main in BANK0
+
+    None.
+
+Critical Paths under _main in BANK1
+
+    None.
+
+Critical Paths under _main in BANK2
+
+    None.
+
+Critical Paths under _main in BANK3
+
+    None.
+
+Critical Paths under _main in BANK4
+
+    None.
+
+Critical Paths under _main in BANK5
+
+    None.
+
+Critical Paths under _main in BANK6
+
+    None.
+
+Critical Paths under _main in BANK7
+
+    None.
+
+Critical Paths under _main in BANK8
+
+    None.
+
+Critical Paths under _main in BANK9
+
+    None.
+
+Critical Paths under _main in BANK10
+
+    None.
+
+Critical Paths under _main in BANK11
+
+    None.
+
+Critical Paths under _main in BANK12
+
+    None.
+
+Critical Paths under _main in BANK13
+
+    None.
+
+Critical Paths under _main in BANK14
+
+    None.
+
+Critical Paths under _main in BANK15
+
+    None.
+
+Call Graph Tables:
+
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (0) _main                                                 0     0      0    2202
+                       _ini_spi_rtcc
+                       _ini_spi_time
+                        _spi_rtcc_rd
+                        _spi_rtcc_wr
+ ---------------------------------------------------------------------------------
+ (1) _ini_spi_time                                         0     0      0     704
+                        _spi_rtcc_wr
+ ---------------------------------------------------------------------------------
+ (1) _ini_spi_rtcc                                         0     0      0     749
+                        _spi_rtcc_rd
+                        _spi_rtcc_wr
+ ---------------------------------------------------------------------------------
+ (1) _spi_rtcc_wr                                          2     1      1     704
+                                              1 COMRAM     2     1      1
+                     _spi_rtcc_start
+                      _spi_rtcc_stop
+                         _spi_wrbyte
+ ---------------------------------------------------------------------------------
+ (1) _spi_rtcc_rd                                          1     1      0      45
+                                              1 COMRAM     1     1      0
+                         _spi_rdbyte
+                     _spi_rtcc_start
+                      _spi_rtcc_stop
+                         _spi_wrbyte
+ ---------------------------------------------------------------------------------
+ (2) _spi_wrbyte                                           1     1      0      15
+                                              0 COMRAM     1     1      0
+ ---------------------------------------------------------------------------------
+ (2) _spi_rtcc_stop                                        0     0      0       0
+ ---------------------------------------------------------------------------------
+ (2) _spi_rtcc_start                                       0     0      0       0
+ ---------------------------------------------------------------------------------
+ (2) _spi_rdbyte                                           1     1      0      15
+                                              0 COMRAM     1     1      0
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 2
+ ---------------------------------------------------------------------------------
+
+ Call Graph Graphs:
+
+ _main (ROOT)
+   _ini_spi_rtcc
+     _spi_rtcc_rd
+       _spi_rdbyte
+       _spi_rtcc_start
+       _spi_rtcc_stop
+       _spi_wrbyte
+     _spi_rtcc_wr
+       _spi_rtcc_start
+       _spi_rtcc_stop
+       _spi_wrbyte
+   _ini_spi_time
+     _spi_rtcc_wr
+       _spi_rtcc_start
+       _spi_rtcc_stop
+       _spi_wrbyte
+   _spi_rtcc_rd
+     _spi_rdbyte
+     _spi_rtcc_start
+     _spi_rtcc_stop
+     _spi_wrbyte
+   _spi_rtcc_wr
+     _spi_rtcc_start
+     _spi_rtcc_stop
+     _spi_wrbyte
+
+ Address spaces:
+Name               Size   Autos  Total    Cost      Usage
+BIGRAM             F3F      0       0      37        0.0%
+BITBANK14          100      0       0      33        0.0%
+BANK14             100      0       0      34        0.0%
+BITBANK13          100      0       0      31        0.0%
+BANK13             100      0       0      32        0.0%
+BITBANK12          100      0       0      29        0.0%
+BANK12             100      0       0      30        0.0%
+BITBANK11          100      0       0      27        0.0%
+BANK11             100      0       0      28        0.0%
+BITBANK10          100      0       0      25        0.0%
+BANK10             100      0       0      26        0.0%
+BITBANK9           100      0       0      23        0.0%
+BANK9              100      0       0      24        0.0%
+BITBANK8           100      0       0      21        0.0%
+BANK8              100      0       0      22        0.0%
+BITBANK7           100      0       0      19        0.0%
+BANK7              100      0       0      20        0.0%
+BITBANK6           100      0       0      17        0.0%
+BANK6              100      0       0      18        0.0%
+BITBANK5           100      0       0      15        0.0%
+BANK5              100      0       0      16        0.0%
+BITBANK4           100      0       0      13        0.0%
+BANK4              100      0       0      14        0.0%
+BITBANK3           100      0       0      10        0.0%
+BANK3              100      0       0      11        0.0%
+BITBANK2           100      0       0       8        0.0%
+BANK2              100      0       0       9        0.0%
+BITBANK1           100      0       0       6        0.0%
+BANK1              100      0       0       7        0.0%
+BITBANK0            A0      0       0       4        0.0%
+BANK0               A0      0       0       5        0.0%
+BITCOMRAM           5F      0       0       0        0.0%
+COMRAM              5F      3       B       1       11.6%
+BITBANK15           40      0       0      35        0.0%
+BANK15              40      0       0      36        0.0%
+BITSFR_1             0      0       0      40        0.0%
+SFR_1                0      0       0      40        0.0%
+BITSFR               0      0       0      40        0.0%
+SFR                  0      0       0      40        0.0%
+STACK                0      0       0       2        0.0%
+NULL                 0      0       0       0        0.0%
+ABS                  0      0       B      12        0.0%
+DATA                 0      0       B       3        0.0%
+CODE                 0      0       0       0        0.0%
+
+
+Microchip Technology PIC18 Macro Assembler V1.34 build -361300703 
+Symbol Table                                                                                   Sat Nov 05 22:58:31 2022
+
+                     l31 FEA8                       l37 FEC8                       _hr 0002  
+                     _yr 0007                      l789 FF40                      _dat 0001  
+                    _day 000B                      _min 0003                      _sec 0006  
+                    _mon 0004           ?_spi_rtcc_stop 0008                      wreg 000FE8  
+                   _main FF80          ?_spi_rtcc_start 0008                     start 0000  
+           ___param_bank 000010                    ?_main 0008                    _TRISA 000F92  
+                  _TRISC 000F94          __initialization FEB0             __end_of_main FFF8  
+          ?_ini_spi_time 0008            ?_ini_spi_rtcc 0008                   ??_main 000B  
+          spi_rdbyte@aux 0008          ??_spi_rtcc_stop 0008            __activetblptr 000000  
+     spi_wrbyte@spi_data 0008           ??_ini_spi_time 000B           ??_ini_spi_rtcc 000B  
+                 clear_0 FEB6               __accesstop 0060  __end_of__initialization FEBC  
+           ?_spi_rtcc_rd 0008             ?_spi_rtcc_wr 0009            ___rparam_used 000001  
+         __pcstackCOMRAM 0008         ??_spi_rtcc_start 0008               __pnvCOMRAM 000B  
+                _SSP1BUF 000FC9     __end_of_ini_spi_time FF80     __end_of_ini_spi_rtcc FF16  
+                __Hparam 0000                  __Lparam 0000                  __pcinit FEB0  
+                __ramtop 1000                  __ptext0 FF80                  __ptext1 FF38  
+                __ptext2 FEF6                  __ptext3 FED8                  __ptext4 FF16  
+                __ptext5 FEA0                  __ptext6 FE9A                  __ptext7 FE94  
+                __ptext8 FEC2     end_of_initialization FEBC     __size_of_spi_rtcc_rd 0022  
+   __size_of_spi_rtcc_wr 001E                  postinc0 000FEE      spi_rtcc_rd@rtcc_reg 0009  
+              _PORTAbits 000F80                _PORTCbits 000F82               _spi_rdbyte FEC2  
+  __end_of_spi_rtcc_stop FEA0               _spi_wrbyte FEA0    __size_of_ini_spi_time 0048  
+  __size_of_ini_spi_rtcc 0020      start_initialization FEB0             _ini_spi_time FF38  
+           _ini_spi_rtcc FEF6              ?_spi_rdbyte 0008              __pbssCOMRAM 0001  
+            ?_spi_wrbyte 0008      spi_rtcc_wr@time_var 0009      spi_rtcc_wr@rtcc_reg 000A  
+    __size_of_spi_rdbyte 0016  __size_of_spi_rtcc_start 0006                 _PIR1bits 000F9E  
+    __size_of_spi_wrbyte 0010                 _SSP1CON1 000FC6                 _SSP1STAT 000FC7  
+          ??_spi_rtcc_rd 0009            ??_spi_rtcc_wr 000A                 __Hrparam 0000  
+               __Lrparam 0000             _SSP1CON1bits 000FC6            __size_of_main 0078  
+ __size_of_spi_rtcc_stop 0006                 _rtcc_buf 0005      __end_of_spi_rtcc_rd FF38  
+    __end_of_spi_rtcc_wr FEF6             ??_spi_rdbyte 0008             ??_spi_wrbyte 0008  
+         _spi_rtcc_start FE94       __end_of_spi_rdbyte FED8       __end_of_spi_wrbyte FEB0  
+          _spi_rtcc_stop FE9A   __end_of_spi_rtcc_start FE9A              _spi_rtcc_rd FF16  
+            _spi_rtcc_wr FED8  
