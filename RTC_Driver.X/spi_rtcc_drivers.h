@@ -126,7 +126,7 @@ unsigned char spi_rtcc_rd(unsigned char rtcc_reg) // SPI read from the SPI RTCC
 void ini_spi_rtcc(void){               // initialization of the SPI RTCC
 day = spi_rtcc_rd(RTCWKDAY)          ; // read day register 
 spi_rtcc_wr(RTCWKDAY,day|VBATEN)     ; // enable the battery back-up  
-spi_rtcc_wr(CONTROL,ALM_NO+SQWEN+CLKO_01H); 
+spi_rtcc_wr(CONTROL,ALM_NO); 
                                        // write in the general control register: 
                                        // no alarms, CLKO = SQWAVE = 1HZ
 //spi_rtcc_wr(ADDR_SEC, 0x00)        ; // initialize the �seconds� register

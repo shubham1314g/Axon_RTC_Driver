@@ -32,7 +32,7 @@
 
 
 //----------------------- Data structure and cmds that application can use--------//
-enum RTC_CMD{HSEC ,SEC,MIN, HOUR, WKDAY, DATE, MONTH,YEAR};
+enum RTC_CMD{HSEC ,SEC, MIN, HOUR, WKDAY, DATE, MONTH,YEAR};
 unsigned char platform_RTC_read(enum RTC_CMD cmd);
 void platform_RTC_write(enum RTC_CMD cmd, unsigned char time_var);
 void platform_RTC_init(void);
